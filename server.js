@@ -6,7 +6,6 @@ const port = process.env.PORT || 3000;
 var url = "mongodb://127.0.0.1:27017";
 const client = new MongoClient(url);
 const dbName = "swapi";
-const collectionName = "films";
 
 
 app.get('/', (req, res) => {
@@ -16,7 +15,7 @@ app.get('/', (req, res) => {
 app.get('/api/planets', async (req,res) => {
     await client.connect();
     const db = client.db(dbName)
-    const collection = db.collection(collectionName);
+    const collection = db.collection("films");
     console.log(await collection.find({}).toArray())
     res.send({'test': true})
 })
@@ -25,7 +24,7 @@ app.get('/api/planets', async (req,res) => {
 app.get('/api/films', async (req, res) => {
     await client.connect();
     const db = client.db(dbName);
-    const filmsCollection = db.collection(collectionName);
+    const filmsCollection = db.collection("films");
     const films = await filmsCollection.find({}).toArray();
     res.json(films);
   });
@@ -35,7 +34,7 @@ app.get('/api/films', async (req, res) => {
     const filmId = parseInt(req.params.id);
     await client.connect();
     const db = client.db(dbName);
-    const filmsCollection = db.collection(collectionName);
+    const filmsCollection = db.collection("films");
     const film = await filmsCollection.findOne({ id: filmId });
     res.json(film);
   });
@@ -50,7 +49,7 @@ app.get('/api/films', async (req, res) => {
     res.json(characters);
   });
   
-  //Planets by film ID
+  //Planets by film 
   app.get('/api/films/:id/planets', async (req, res) => {
     const filmId = parseInt(req.params.id);
     await client.connect();
