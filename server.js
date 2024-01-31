@@ -50,16 +50,6 @@ app.get('/api/films', async (req, res) => {
     const film = await filmsCollection.findOne({ id: filmId });
     res.json(film);
   });
-  
-  //Characters by film ID
-  app.get('/api/films/:id/characters', async (req, res) => {
-    const filmId = parseInt(req.params.id);
-    await client.connect();
-    const db = client.db(dbName);
-    const charactersCollection = db.collection('characters');
-    const characters = await charactersCollection.find({ filmId: filmId }).toArray();
-    res.json(characters);
-  });
 
   async function getFilmCharacters(objs) {
     return Promise.all(objs.map(async (obj) => {
